@@ -1,0 +1,15 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:gbt="http://model.ncbi.gov.bluetree.jp/" targetNamespace="http://model.ncbi.gov.bluetree.jp/"
+	elementFormDefault="qualified">
+
+	<xs:complexType name="publication">
+		<xs:sequence>
+			<xs:element name="uid" type="xs:string" />
+			<xs:element name="pubdate" type="xs:string" />
+			<xs:element name="epubdate" type="xs:string" />
+			<xs:element name="source" type="xs:string" />
+			<xs:element name="title" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>
