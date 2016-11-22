@@ -191,7 +191,7 @@ https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=9565568
             "sortpubdate": "1998/05/08 00:00",
             "sortfirstauthor": "Monteiro MA",
             "vernaculartitle": ""
-        }
+        }Rest
     }
 }
 
@@ -212,7 +212,7 @@ public class Application {
 	NCBIService ncbiService;
 
 	@Bean
-	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
+	public CommandLineRunner run() throws Exception {
 	  
 		return args -> {
 		  if (args.length > 0 && null != args[0]) {

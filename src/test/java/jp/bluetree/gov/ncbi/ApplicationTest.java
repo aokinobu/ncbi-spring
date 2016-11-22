@@ -9,15 +9,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
+import jp.bluetree.gov.ncbi.service.NCBIService;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTest {
 	
-	@Autowired
-	private RestTemplate restTemplate;
+  @Autowired
+  NCBIService ncbiService;
 
 	@Test
 	public void contextLoads() {
-		assertThat(restTemplate).isNotNull();
+		assertThat(ncbiService).isNotNull();
 	}
 }

@@ -17,8 +17,8 @@ public class NCBIService {
 
   private static final Log logger = LogFactory.getLog(NCBIService.class);
 
-  @Autowired
-  RestTemplate restTemplate;
+//  @Autowired
+  RestTemplate restTemplate = new RestTemplate();
   
   @Autowired
   ObjectMapper objectMapper;

@@ -1,6 +1,5 @@
 package jp.bluetree.gov.ncbi.config;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -16,10 +15,15 @@ public class EutilsConfig {
     return new NCBIService();
   }
   
-  @Bean
-  public RestTemplate restTemplate(RestTemplateBuilder builder) {
-    return builder.build();
-  }
+//  @Bean
+//  public RestTemplate restTemplate() {
+//    return new RestTemplate();
+//  }
+
+//  @Bean
+//  public RestTemplate restTemplate(RestTemplateBuilder builder) {
+//    return builder.build();
+//  }
   
 //  "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=Z19565568&retmode=json&tool=ncbiSpring&email=ncbi@bluetree.jp"
   public static final String HOSTNAME = "https://eutils.ncbi.nlm.nih.gov";
