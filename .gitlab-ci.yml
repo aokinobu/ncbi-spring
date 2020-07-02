@@ -1,16 +1,10 @@
-image: aokinobu/docker-compose:1.21.2
-#image: maven:latest
-
-stages:
-  - build
-  - test
-  - deploy
-  - release
-  - sitebuild
-  - sitedeploy
+image: maven:latest
 
 variables:
-  MAVEN_OPTS: "-s .m2/settings.xml --batch-mode -Dmaven.repo.local=.m2/repository -Denforcer.skip=true -DskipTests=true -U"
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode -U"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  MAVEN_REPO_PASS: $MAVEN_REPO_PASS
+  MAVEN_REPO_USER: $MAVEN_REPO_USER
 
 cache:
   paths:
@@ -19,69 +13,19 @@ cache:
 
 build:
   stage: build
-  only:
-    - master
-  variables:
-    PROJECT_VERSION: ${PROJECT_VERSION_TEST}
   script:
-    - echo ${PROJECT_VERSION}
-    - ls
-    - echo builds
-    - ls /builds
-    - docker-compose run --rm maven mvn $MAVEN_OPTS package
-    #mvn $MAVEN_OPTS -DskipTests=true package
+    - mvn $MAVEN_CLI_OPTS compile
 
 test:
   stage: test
-  only:
-    - master
-  variables:
-    PROJECT_VERSION: ${PROJECT_VERSION_TEST}
   script:
-    - echo ${PROJECT_VERSION}
-    - docker-compose run --rm maven mvn $MAVEN_OPTS test
+    - mvn $MAVEN_CLI_OPTS test
+  allow_failure: true
 
 deploy:
   stage: deploy
+  script:
+    - echo mvn -DMAVEN_REPO_USER=$MAVEN_REPO_USER -DMAVEN_REPO_PASS=$MAVEN_REPO_PASS  $MAVEN_CLI_OPTS -DskipTests=true deploy
+    - mvn -DMAVEN_REPO_USER=$MAVEN_REPO_USER -DMAVEN_REPO_PASS=$MAVEN_REPO_PASS  $MAVEN_CLI_OPTS -DskipTests=true deploy
   only:
     - master
-  variables:
-    PROJECT_VERSION: ${PROJECT_VERSION_TEST}
-  script:
-    - echo ${PROJECT_VERSION}
-    - echo ${MAVEN_REPO_USER}
-    - docker-compose run --rm maven mvn $MAVEN_OPTS deploy
-    #- mvn $MAVEN_OPTS -DskipTests=true deploy
-
-release:
-  stage: release 
-  only:
-    - master
-  variables:
-    PROJECT_VERSION: ${PROJECT_VERSION_TEST}
-  script:
-    - echo ${PROJECT_VERSION}
-    - docker-compose run --rm maven mvn $MAVEN_OPTS deploy
-    #- mvn $MAVEN_OPTS -DskipTests=true deploy
-  when: manual
-
-sitebuild:
-  stage: sitebuild
-  only:
-    - master
-  variables:
-    PROJECT_VERSION: ${PROJECT_VERSION_PROD}
-  script:
-    - echo ${PROJECT_VERSION}
-    - docker-compose run --rm maven mvn $MAVEN_OPTS site
-
-sitedeploy:
-  stage: sitedeploy
-  only:
-    - master
-  variables:
-    PROJECT_VERSION: ${PROJECT_VERSION_PROD}
-  script:
-    - echo ${PROJECT_VERSION}
-    - docker-compose run --rm maven mvn $MAVEN_OPTS site-deploy
-  when: manual
