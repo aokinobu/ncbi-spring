@@ -14,6 +14,7 @@ cache:
 build:
   stage: build
   script:
+    - mvn --version
     - mvn $MAVEN_CLI_OPTS compile
 
 test:
